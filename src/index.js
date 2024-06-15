@@ -4,6 +4,7 @@ const path = require("path")
 
 const app = express()
 const router = express.Router()
+app.use(express.static(path.join(__dirname + "/css")))
 app.use(bodyParser.urlencoded({
     extended:true
 }))
@@ -17,9 +18,9 @@ router.post("/admin", (req, res)=>{
     const user = req.body.username
     const pass = req.body.password
     if (user == usuario && senha == pass){
-        res.status(200).send("<h1>Logado com sucesso!!<h1/>")
+        res.sendFile(path.join(__dirname + "/pages/comando.html"))
     }else{
-        res.status(403).send("deu erro seu burro!!")
+        res.status(403).send("ERROR!!")
     }
 })
 
@@ -45,6 +46,7 @@ router.get("/contato", (req, res)=>{
 })
 
 app.use(router)
+
 
 app.listen(3333, ()=>{
     console.log("Servidor online!!")
