@@ -1,8 +1,40 @@
+const bodyParser = require("body-parser")
 const express = require ("express")
 const path = require("path")
 
 const app = express()
 const router = express.Router()
+app.use(bodyParser.urlencoded({
+    extended:true
+}))
+
+let contador = 0
+
+let usuario = "sagaty15"
+let senha = "senha1234"
+
+router.post("/admin", (req, res)=>{
+    const user = req.body.username
+    const pass = req.body.password
+    if (user == usuario && senha == pass){
+        res.status(200).send("<h1>Logado com sucesso!!<h1/>")
+    }else{
+        res.status(403).send("deu erro seu burro!!")
+    }
+})
+
+router.get("/admin", (req, res)=>{
+    res.sendFile(path.join(__dirname + "/pages/admin.html"))
+})
+
+router.get("/contador", (req, res)=>{
+    res.sendFile(path.join(__dirname + "/pages/contador.html"))
+})
+
+router.post("/contador", (req, res)=>{
+    contador = contador + 1
+    res.status(200).send(`O numero do contador é :${contador}`)
+})
 
 router.get("/", (req, res)=>{
     res.sendFile(path.join(__dirname + "/pages/home.html"))
